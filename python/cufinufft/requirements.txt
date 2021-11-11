@@ -1,3 +1,2 @@
-numpy
-pycuda
+numpy<1.22
 six
