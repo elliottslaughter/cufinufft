@@ -50,6 +50,7 @@ else
 endif
 
 # Common includes
+INC ?= -I$(CUDA_ROOT)/include
 INC += -Icontrib/cuda_samples
 
 # NVCC-specific libs
@@ -72,7 +73,8 @@ LIBS ?= -lm -lcudart -lstdc++ -lnvToolsExt -lcufft -lcuda
 # Include header files
 INC += -I include
 
-LIBNAME=libcufinufft
+LIBNAME_SHORT=cufinufft
+LIBNAME=lib$(LIBNAME_SHORT)
 DYNAMICLIB=lib/$(LIBNAME).so
 STATICLIB=lib-static/$(LIBNAME).a
 
@@ -163,11 +165,11 @@ examples: $(BINDIR)/example2d1many \
 
 $(BINDIR)/example%: examples/example%.cpp $(DYNAMICLIB) $(HEADERS)
 	mkdir -p $(BINDIR)
-	$(NVCC) $(NVCCFLAGS) $(INC) $(LIBS) -o $@ $< $(DYNAMICLIB)
+	$(NVCC) $(NVCCFLAGS) $(INC) $(LIBS) -o $@ $< -Llib -l$(LIBNAME_SHORT)
 
 $(BINDIR)/cufinufft2d2api_test%: test/cufinufft2d2api_test%.o $(DYNAMICLIB)
 	mkdir -p $(BINDIR)
-	$(NVCC) $(NVCCFLAGS) $(LIBS) -o $@ $< $(DYNAMICLIB)
+	$(NVCC) $(NVCCFLAGS) $(LIBS) -o $@ $< -Llib -l$(LIBNAME_SHORT)
 
 $(BINDIR)/%_32: test/%_32.o $(CUFINUFFTOBJS_32) $(CUFINUFFTOBJS)
 	mkdir -p $(BINDIR)
