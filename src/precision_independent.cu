@@ -3,9 +3,9 @@
 */
 //TODO: remove kernels that do not depend on dimension
 
+#include "cuda_hip_wrapper.h"
 #include <thrust/device_ptr.h>
 #include <thrust/scan.h>
-#include <cuComplex.h>
 
 #include "precision_independent.h"
 
